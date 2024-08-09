@@ -1,9 +1,12 @@
 from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import String
 
 from . import Base
 from .mixins import TableIdMixin
 
 
-class Category(TableIdMixin, Base):
-    name: Mapped[str]
-    description: Mapped[str]
+class Category(Base, TableIdMixin):
+    __tablename__ = "categories"
+
+    name: Mapped[str] = mapped_column(String(80))
+    description: Mapped[str] = mapped_column(String(120))
