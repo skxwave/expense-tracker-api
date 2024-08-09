@@ -4,7 +4,7 @@ services:
     image: mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: expence_tracker
+      MYSQL_DATABASE: expense_tracker
       MYSQL_USER: admin
       MYSQL_PASSWORD: root
     ports:

@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "expence tracker api"
+name = "expense tracker api"
 version = "0.1.0"
-description = "Expence Tracker API"
+description = "Expense Tracker API"
 authors = ["Your Name <you@example.com>"]
 readme = "README.md"
 
@@ -15,6 +15,9 @@ pydantic-settings = "^2.4.0"
 aiomysql = "^0.2.0"
 uvicorn = {extras = ["standart"], version = "^0.30.5"}
 
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.8.0"
 
 [build-system]
 requires = ["poetry-core"]
