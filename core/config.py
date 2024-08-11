@@ -2,8 +2,16 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import BaseModel, MySQLDsn
 
 
+class Run(BaseModel):
+    host: str = "localhost"
+    port: int = 8000
+
+
 class DatabaseSettings(BaseModel):
     url: MySQLDsn
+    echo: bool = False
+    echo_pool: bool = False
+    max_overflow: int = 10
 
 
 class ApiPrefix(BaseModel):
@@ -18,6 +26,7 @@ class Settings(BaseSettings):
         case_sensitive=False,
     )
     db: DatabaseSettings
+    run: Run = Run()
 
 
 settings = Settings()
