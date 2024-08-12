@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from crud import category as crud
-from crud.dependencies.category import find_category
+from api.dependencies.category import find_category
 from core.schemas.category import CategoryCreate, CategoryRead, CategoryUpdate
 from core.models import Category, db
 
