@@ -4,7 +4,7 @@ from sqlalchemy import String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from . import Base
-from .mixins.table_id import TableIdMixin
+from .mixins import TableIdMixin
 
 if TYPE_CHECKING:
     from . import Category

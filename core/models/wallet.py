@@ -1,22 +1,14 @@
-from typing import TYPE_CHECKING, List
-
-from sqlalchemy import String, ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy import String
+from sqlalchemy.orm import Mapped, mapped_column
 
 from . import Base
-from .mixins.table_id import TableIdMixin
-
-if TYPE_CHECKING:
-    from . import Transaction
+from .mixins import TableIdMixin, TransactionRelationMixin
 
 
-class Wallet(Base, TableIdMixin):
+class Wallet(Base, TableIdMixin, TransactionRelationMixin):
     __tablename__ = "wallets"
+    _transaction_back_populates = "wallet"
 
     name: Mapped[str] = mapped_column(String(50), nullable=False)
     currency: Mapped[str] = mapped_column(String(50), nullable=False)
     balance: Mapped[int]
-
-    transactions: Mapped[List["Transaction"]] = relationship(
-        "Transaction", back_populates="wallet"
-    )
