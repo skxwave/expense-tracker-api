@@ -1,15 +1,19 @@
 from pydantic import BaseModel
 
 
-class WalletRead(BaseModel):
+class WalletBase(BaseModel):
     name: str
     currency: str
     balance: int
 
 
-class WalletCreate(WalletRead):
+class WalletRead(WalletBase):
     pass
 
 
-class WalletUpdate(WalletRead):
+class WalletCreate(WalletBase):
+    pass
+
+
+class WalletUpdate(WalletBase):
     pass

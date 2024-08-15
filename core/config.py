@@ -9,7 +9,7 @@ class Run(BaseModel):
 
 class DatabaseSettings(BaseModel):
     url: MySQLDsn
-    echo: bool = False
+    echo: bool = True
     echo_pool: bool = False
     max_overflow: int = 10
 

@@ -1,14 +1,18 @@
 from pydantic import BaseModel
 
 
-class CategoryRead(BaseModel):
+class CategoryBase(BaseModel):
     name: str
     description: str
 
 
-class CategoryCreate(CategoryRead):
+class CategoryRead(CategoryBase):
     pass
 
 
-class CategoryUpdate(CategoryRead):
+class CategoryCreate(CategoryBase):
+    pass
+
+
+class CategoryUpdate(CategoryBase):
     pass

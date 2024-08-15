@@ -14,6 +14,7 @@ if TYPE_CHECKING:
 class Transaction(Base, TableIdMixin):
     __tablename__ = "transactions"
 
+    transaction_type: Mapped[str] = mapped_column(String(10), nullable=False)
     quantity: Mapped[int]
     description: Mapped[str] = mapped_column(String(100), nullable=True)
     wallet_id: Mapped[int] = mapped_column(ForeignKey("wallets.id"))
