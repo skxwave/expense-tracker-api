@@ -27,7 +27,10 @@ async def put(
     wallet: Wallet,
     session: AsyncSession,
 ):
-    pass
+    for key, value in wallet_update.model_dump().items():
+        setattr(wallet, key, value)
+    await session.commit()
+    return wallet
 
 
 async def delete(
