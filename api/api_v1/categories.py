@@ -42,7 +42,7 @@ async def create_category(
     )
 
 
-@router.delete("{category_id}")
+@router.delete("/{category_id}")
 async def delete_category(
     category: Category = Depends(find_category),
     session: AsyncSession = Depends(db.session_getter),

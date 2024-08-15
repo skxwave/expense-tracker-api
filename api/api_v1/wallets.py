@@ -15,7 +15,7 @@ router = APIRouter(
 )
 
 
-@router.get("{wallet_id}", response_model=WalletRead)
+@router.get("/{wallet_id}", response_model=WalletRead)
 async def show_wallet(
     wallet: Wallet = Depends(find_wallet),
 ):
@@ -40,6 +40,14 @@ async def create_wallet(
     )
 
 
-@router.post("/update")
-async def update_wallet():
-    pass
+@router.put("/update/{wallet_id}")
+async def update_wallet(
+    wallet_update: WalletUpdate,
+    wallet: Wallet = Depends(find_wallet),
+    session: AsyncSession = Depends(db.session_getter),
+):
+    await crud.put(
+        wallet_update=wallet_update,
+        wallet=wallet,
+        session=session,
+    )
