@@ -5,7 +5,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from crud import category as crud
 from api.dependencies.category import find_category
-from core.schemas.category import CategoryCreate, CategoryRead, CategoryUpdate
+from api.dependencies.pagination import pagination_params
+from core.schemas.category import CategoryCreate, CategoryRead
+from core.schemas.pagination import Pagination
 from core.models import Category, db
 
 
@@ -25,9 +27,12 @@ async def show_category(
 @router.get("/", response_model=List[CategoryRead])
 async def show_categories(
     session: AsyncSession = Depends(db.session_getter),
+    pagination: Pagination = Depends(pagination_params),
 ):
     return await crud.show_all(
         session=session,
+        limit=pagination.per_page,
+        page=pagination.page,
     )
 
 

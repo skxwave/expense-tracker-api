@@ -1,9 +1,11 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from api.dependencies.transaction import find_income
+from api.dependencies.pagination import pagination_params
 from crud import transaction as crud
 from core.schemas.transaction import TransactionCreate, TransactionRead
+from core.schemas.pagination import Pagination
 from core.models import Transaction
 from core.models import db
 
@@ -22,11 +24,14 @@ async def show_income(
 
 @router.get("/", response_model=list[TransactionRead])
 async def show_incomes(
+    pagination: Pagination = Depends(pagination_params),
     session: AsyncSession = Depends(db.session_getter),
 ):
     return await crud.show_all(
         session=session,
         transaction_type="income",
+        limit=pagination.per_page,
+        page=pagination.page,
     )
 
 
@@ -36,6 +41,7 @@ async def add_income(
     session: AsyncSession = Depends(db.session_getter),
 ):
     return await crud.add(
+        transaction_type="income",
         transaction_create=transaction_create,
         session=session,
     )
