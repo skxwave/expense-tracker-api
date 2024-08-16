@@ -5,12 +5,12 @@ from .wallet import WalletRead
 
 
 class TransactionBase(BaseModel):
-    transaction_type: str
     quantity: int
     description: str | None
 
 
 class TransactionRead(TransactionBase):
+    transaction_type: str
     wallet: WalletRead
     category: CategoryRead
 
