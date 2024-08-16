@@ -8,8 +8,8 @@ from core.models import Wallet
 async def show_all(
     session: AsyncSession,
 ):
-    result = await session.execute(select(Wallet))
-    return result.scalars().all()
+    result = await session.scalars(select(Wallet))
+    return result.all()
 
 
 async def create(
