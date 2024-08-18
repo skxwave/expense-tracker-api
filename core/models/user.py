@@ -9,8 +9,11 @@ if TYPE_CHECKING:
     from sqlalchemy.ext.asyncio import AsyncSession
 
 
-class User(TableIdMixin, SQLAlchemyBaseUserTable, Base):
+class User(TableIdMixin, SQLAlchemyBaseUserTable[int], Base):
 
     @classmethod
-    def get_db(cls, session: "AsyncSession"):
+    def get_db(
+        cls,
+        session: "AsyncSession",
+    ):
         return SQLAlchemyUserDatabase(session, cls)
