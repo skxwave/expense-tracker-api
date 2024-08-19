@@ -8,7 +8,7 @@ class WalletBase(BaseModel):
 
 
 class WalletRead(WalletBase):
-    pass
+    id: int
 
 
 class WalletCreate(WalletBase):

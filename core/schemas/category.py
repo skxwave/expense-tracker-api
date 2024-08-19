@@ -7,7 +7,7 @@ class CategoryBase(BaseModel):
 
 
 class CategoryRead(CategoryBase):
-    pass
+    id: int
 
 
 class CategoryCreate(CategoryBase):
