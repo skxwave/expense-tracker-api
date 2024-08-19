@@ -7,16 +7,19 @@ from core.models import Wallet
 
 async def show_all(
     session: AsyncSession,
+    user_id: int,
 ):
-    result = await session.scalars(select(Wallet))
+    result = await session.scalars(select(Wallet).where(Wallet.user_id == user_id))
     return result.all()
 
 
 async def create(
+    user_id: int,
     wallet_create: WalletCreate,
     session: AsyncSession,
 ):
     wallet = Wallet(**wallet_create.model_dump())
+    wallet.user_id = user_id
     session.add(wallet)
     await session.commit()
     return wallet
