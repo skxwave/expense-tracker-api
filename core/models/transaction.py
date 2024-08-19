@@ -9,6 +9,7 @@ from .mixins import TableIdMixin
 if TYPE_CHECKING:
     from . import Category
     from . import Wallet
+    from . import User
 
 
 class Transaction(Base, TableIdMixin):
@@ -19,7 +20,12 @@ class Transaction(Base, TableIdMixin):
     description: Mapped[str] = mapped_column(String(100), nullable=True)
     wallet_id: Mapped[int] = mapped_column(ForeignKey("wallets.id"))
     category_id: Mapped[int] = mapped_column(ForeignKey("categories.id"))
+    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
 
+    user: Mapped["User"] = relationship(
+        "User",
+        back_populates="transactions",
+    )
     wallet: Mapped["Wallet"] = relationship(
         "Wallet",
         back_populates="transactions",
