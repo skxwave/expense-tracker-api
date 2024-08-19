@@ -39,7 +39,7 @@ async def show_categories(
     )
 
 
-@router.post("/create", response_model=CategoryCreate)
+@router.post("/create", response_model=CategoryRead)
 async def create_category(
     category_create: CategoryCreate,
     session: AsyncSession = Depends(db.session_getter),
@@ -52,7 +52,7 @@ async def create_category(
     )
 
 
-@router.put("/update/{category_id}")
+@router.put("/update/{category_id}", response_model=CategoryRead)
 async def update_category(
     category_update: CategoryUpdate,
     category: Category = Depends(find_category),
@@ -65,7 +65,7 @@ async def update_category(
     )
 
 
-@router.delete("/delete/{category_id}")
+@router.delete("/delete/{category_id}", response_model=CategoryRead)
 async def delete_category(
     category: Category = Depends(find_category),
     session: AsyncSession = Depends(db.session_getter),
