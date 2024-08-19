@@ -4,21 +4,23 @@ from sqlalchemy import String, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from . import Base
-from .mixins import TableIdMixin
+from .mixins import TableIdMixin, UserRelationMixin
 
 if TYPE_CHECKING:
     from . import Category
     from . import Wallet
 
 
-class Transaction(Base, TableIdMixin):
+class Transaction(Base, TableIdMixin, UserRelationMixin):
     __tablename__ = "transactions"
+    _user_back_populates = "transactions"
 
     transaction_type: Mapped[str] = mapped_column(String(10), nullable=False)
     quantity: Mapped[int]
     description: Mapped[str] = mapped_column(String(100), nullable=True)
     wallet_id: Mapped[int] = mapped_column(ForeignKey("wallets.id"))
     category_id: Mapped[int] = mapped_column(ForeignKey("categories.id"))
+    user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))
 
     wallet: Mapped["Wallet"] = relationship(
         "Wallet",

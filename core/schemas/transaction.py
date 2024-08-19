@@ -10,6 +10,7 @@ class TransactionBase(BaseModel):
 
 
 class TransactionRead(TransactionBase):
+    id: int
     transaction_type: str
     wallet: WalletRead
     category: CategoryRead

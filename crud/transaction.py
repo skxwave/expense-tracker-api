@@ -3,7 +3,7 @@ from sqlalchemy.orm import joinedload
 from sqlalchemy import select
 from fastapi import HTTPException, status
 
-from core.schemas.transaction import TransactionCreate, TransactionUpdate
+from core.schemas import TransactionCreate, TransactionUpdate
 from core.models import Transaction
 from .validators import validate_wallet, validate_category
 
@@ -13,6 +13,7 @@ async def show_all(
     transaction_type: str,
     limit: int,
     page: int,
+    user_id: int,
 ):
     result = await session.scalars(
         select(Transaction)
@@ -20,7 +21,10 @@ async def show_all(
             joinedload(Transaction.category),
             joinedload(Transaction.wallet),
         )
-        .where(Transaction.transaction_type == transaction_type)
+        .where(
+            Transaction.transaction_type == transaction_type,
+            Transaction.user_id == user_id,
+        )
         .limit(limit)
         .offset(page - 1 if page == 1 else (page - 1) * limit),
     )
@@ -31,15 +35,18 @@ async def add(
     transaction_type: str,
     transaction_create: TransactionCreate,
     session: AsyncSession,
+    user_id: int,
 ):
     wallet = await validate_wallet(
         session=session,
         wallet_id=transaction_create.wallet_id,
+        user_id=user_id,
     )
 
     await validate_category(
         session=session,
         category_id=transaction_create.category_id,
+        user_id=user_id,
     )
 
     if transaction_type == "expense":
@@ -54,10 +61,17 @@ async def add(
 
     transaction = Transaction(**transaction_create.model_dump())
     transaction.transaction_type = transaction_type
+    transaction.user_id = user_id
     session.add(transaction)
 
     await session.commit()
-    return transaction
+    await session.refresh(transaction)
+
+    return await session.scalar(
+        select(Transaction)
+        .options(joinedload(Transaction.wallet), joinedload(Transaction.category))
+        .filter_by(id=transaction.id)
+    )
 
 
 async def put(

@@ -6,9 +6,10 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from crud import category as crud
 from api.dependencies.category import find_category
 from api.dependencies.pagination import pagination_params
-from core.schemas.category import CategoryCreate, CategoryRead
+from core.schemas.category import CategoryCreate, CategoryRead, CategoryUpdate
 from core.schemas.pagination import Pagination
-from core.models import Category, db
+from core.models import Category, db, User
+from .fastapi_users_router import current_user
 
 
 router = APIRouter(
@@ -28,29 +29,49 @@ async def show_category(
 async def show_categories(
     session: AsyncSession = Depends(db.session_getter),
     pagination: Pagination = Depends(pagination_params),
+    user: User = Depends(current_user),
 ):
     return await crud.show_all(
+        user_id=user.id,
         session=session,
         limit=pagination.per_page,
         page=pagination.page,
     )
 
 
-@router.post("/create", response_model=CategoryCreate)
+@router.post("/create", response_model=CategoryRead)
 async def create_category(
     category_create: CategoryCreate,
     session: AsyncSession = Depends(db.session_getter),
+    user: User = Depends(current_user),
 ):
     return await crud.create(
+        user_id=user.id,
         category_create=category_create,
         session=session,
     )
 
 
-@router.delete("/{category_id}")
+@router.put("/update/{category_id}", response_model=CategoryRead)
+async def update_category(
+    category_update: CategoryUpdate,
+    category: Category = Depends(find_category),
+    session: AsyncSession = Depends(db.session_getter),
+):
+    await crud.put(
+        category_update=category_update,
+        category=category,
+        session=session,
+    )
+
+
+@router.delete("/delete/{category_id}", response_model=CategoryRead)
 async def delete_category(
     category: Category = Depends(find_category),
     session: AsyncSession = Depends(db.session_getter),
 ):
-    await crud.delete(category, session)
+    await crud.delete(
+        category=category,
+        session=session,
+    )
     return category

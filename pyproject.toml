@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "expense tracker api"
-version = "0.1.0"
+version = "0.2.0"
 description = "Expense Tracker API"
 authors = ["Your Name <you@example.com>"]
 readme = "README.md"
@@ -15,6 +15,7 @@ pydantic-settings = "^2.4.0"
 aiomysql = "^0.2.0"
 uvicorn = {extras = ["standart"], version = "^0.30.5"}
 cryptography = "^43.0.0"
+fastapi-users = {extras = ["sqlalchemy"], version = "^13.0.0"}
 
 
 [tool.poetry.group.dev.dependencies]
