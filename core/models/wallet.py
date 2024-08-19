@@ -10,7 +10,7 @@ from .mixins import TableIdMixin, TransactionRelationMixin, UserRelationMixin
 class Wallet(Base, TableIdMixin, TransactionRelationMixin, UserRelationMixin):
     __tablename__ = "wallets"
     _transaction_back_populates = "wallet"
-    _user_back_populates = "wallet"
+    _user_back_populates = "wallets"
 
     name: Mapped[str] = mapped_column(String(50), nullable=False)
     currency: Mapped[str] = mapped_column(String(50), nullable=False)

@@ -58,3 +58,15 @@ async def update_wallet(
         wallet=wallet,
         session=session,
     )
+
+
+@router.delete("/delete/{wallet_id}")
+async def delete_wallet(
+    wallet: Wallet = Depends(find_wallet),
+    session: AsyncSession = Depends(db.session_getter),
+):
+    await crud.delete(
+        wallet=wallet,
+        session=session,
+    )
+    return wallet

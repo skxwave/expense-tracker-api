@@ -11,7 +11,10 @@ async def find_wallet(
     wallet_id: int = Path,
     user: User = Depends(current_user),
 ):
-    stmt = select(Wallet).where(Wallet.id == wallet_id, Wallet.user_id == user.id)
+    stmt = select(Wallet).where(
+        Wallet.id == wallet_id,
+        Wallet.user_id == user.id,
+    )
     wallet = await session.scalar(statement=stmt)
     if not wallet:
         raise HTTPException(

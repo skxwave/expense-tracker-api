@@ -8,7 +8,7 @@ from .mixins import TableIdMixin, TransactionRelationMixin
 
 if TYPE_CHECKING:
     from sqlalchemy.ext.asyncio import AsyncSession
-    from . import Wallet
+    from . import Wallet, Category
 
 
 class User(TableIdMixin, SQLAlchemyBaseUserTable[int], Base, TransactionRelationMixin):
@@ -16,6 +16,10 @@ class User(TableIdMixin, SQLAlchemyBaseUserTable[int], Base, TransactionRelation
 
     wallets: Mapped["Wallet"] = relationship(
         "Wallet",
+        back_populates="user",
+    )
+    categories: Mapped["Category"] = relationship(
+        "Category",
         back_populates="user",
     )
 
