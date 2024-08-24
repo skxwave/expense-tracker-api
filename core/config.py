@@ -11,7 +11,7 @@ class SuperUser(BaseModel):
 
 
 class Run(BaseModel):
-    host: str = "localhost"
+    host: str = "192.168.0.23"
     port: int = 8000
 
 

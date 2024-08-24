@@ -13,7 +13,11 @@ async def lifespan(app: FastAPI):
     await db.dispose()
 
 
-main_app = FastAPI(lifespan=lifespan)
+main_app = FastAPI(
+    lifespan=lifespan,
+    docs_url="/docs",
+    redoc_url="/redoc",
+)
 
 main_app.include_router(router=router)
 
