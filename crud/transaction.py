@@ -61,6 +61,7 @@ async def add(
 
     transaction = Transaction(**transaction_create.model_dump())
     transaction.transaction_type = transaction_type
+    transaction.wallet_balance_after = wallet.balance
     transaction.user_id = user_id
     session.add(transaction)
 
