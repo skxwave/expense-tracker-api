@@ -16,7 +16,8 @@ class Transaction(Base, TableIdMixin, UserRelationMixin):
     _user_back_populates = "transactions"
 
     transaction_type: Mapped[str] = mapped_column(String(10), nullable=False)
-    quantity: Mapped[int]
+    quantity: Mapped[float]
+    wallet_balance_after: Mapped[float]
     description: Mapped[str] = mapped_column(String(100), nullable=True)
     wallet_id: Mapped[int] = mapped_column(ForeignKey("wallets.id"))
     category_id: Mapped[int] = mapped_column(ForeignKey("categories.id"))

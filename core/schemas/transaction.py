@@ -5,7 +5,7 @@ from .wallet import WalletRead
 
 
 class TransactionBase(BaseModel):
-    quantity: int
+    quantity: float
     description: str | None
 
 
@@ -14,6 +14,7 @@ class TransactionRead(TransactionBase):
     transaction_type: str
     wallet: WalletRead
     category: CategoryRead
+    wallet_balance_after: float
 
 
 class TransactionCreate(TransactionBase):

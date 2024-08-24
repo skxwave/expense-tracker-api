@@ -14,5 +14,5 @@ class Wallet(Base, TableIdMixin, TransactionRelationMixin, UserRelationMixin):
 
     name: Mapped[str] = mapped_column(String(50), nullable=False)
     currency: Mapped[str] = mapped_column(String(50), nullable=False)
-    balance: Mapped[int]
+    balance: Mapped[float]
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"))

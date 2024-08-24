@@ -4,11 +4,11 @@ from pydantic import BaseModel
 class WalletBase(BaseModel):
     name: str
     currency: str
-    balance: int
+    balance: float
 
 
 class WalletRead(WalletBase):
-    id: int
+    id: float
 
 
 class WalletCreate(WalletBase):
